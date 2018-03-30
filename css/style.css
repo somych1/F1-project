@@ -1,6 +1,12 @@
 body {
 	background-color: yellow;
 }
-#asphalt {
-	background-color: grey;
+#my-canvas {
+	background: none;
+}
+.background{
+	border: 5px solid white;
+	background: url('../img/bg.jpg');
+	width: 600px;
+	height: 1000px;
 }
