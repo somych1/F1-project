@@ -1,4 +1,6 @@
-const $ctx = $("#canvas")[0].getContext("2d");
+const canvas = document.getElementById('canvas');
+const $ctx = canvas.getContext("2d");
+
 class Car {
 	constructor(x, y, width, height){
 		this.x = x;
@@ -9,17 +11,22 @@ class Car {
 		// this.picture.src = image;
 	}
 	draw (){
-		$ctx.rect(this.x, this.y, this.width, this.height);
+
+		$ctx.fillRect(this.x, this.y, this.width, this.height);
 		$ctx.fillStyle = '#ff0000';
-		$ctx.fill();
 	}
 }
 const player = new Car(328, 820, 110, 150);
 player.draw()
 
+function clearCanvas(){
+	console.log('happening')
+	$ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 $(document).on("keydown", function(e) {
 	const key = e.keyCode
-	const move = 5;
+	const move = 15;
 	if(key == 37) {
 		console.log('left')
 		player.x = player.x - move
@@ -28,6 +35,20 @@ $(document).on("keydown", function(e) {
 		console.log('right')
 		player.x = player.x + move 
 	}
-	$ctx.clearRect(0, 0, canvas.width, canvas.height);
-	player.draw()
+
+
+
 })
+
+
+const animate = () => {
+
+	clearCanvas();
+	player.draw();
+
+	requestAnimationFrame(animate);
+}
+
+animate();
+	
+

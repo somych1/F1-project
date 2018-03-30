@@ -1,8 +1,9 @@
 body {
 	background-color: yellow;
 }
-#canvas {
-	background: none;
+canvas {
+	width: 600;
+	height: 1000;
 }
 .background{
 	border: 5px solid white;
@@ -20,30 +21,30 @@ body {
 
 @-webkit-keyframes scroll{
   100%{
-    background-position:0px -30000px;
+    background-position:0px -40000px;
   }
 }
 
 @-moz-keyframes scroll{
   100%{
-    background-position:0px -30000px;
+    background-position:0px -40000px;
   }
 }
 
 @-o-keyframes scroll{
   100%{
-    background-position:0px -30000px;
+    background-position:0px -40000px;
   }
 }
 
 @-ms-keyframes scroll{
   100%{
-    background-position:0px -30000px;
+    background-position:0px -40000px;
   }
 }
 
 @keyframes scroll{
   100%{
-    background-position:0px -30000px;
+    background-position:0px -40000px;
   }
 }
