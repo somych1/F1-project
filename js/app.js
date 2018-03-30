@@ -1,4 +1,4 @@
-const $ctx = $("#my-canvas")[0].getContext("2d");
+const $ctx = $("#canvas")[0].getContext("2d");
 class Car {
 	constructor(x, y, width, height){
 		this.x = x;
@@ -16,3 +16,18 @@ class Car {
 }
 const player = new Car(328, 820, 110, 150);
 player.draw()
+
+$(document).on("keydown", function(e) {
+	const key = e.keyCode
+	const move = 5;
+	if(key == 37) {
+		console.log('left')
+		player.x = player.x - move
+	}
+	else if(key == 39) {
+		console.log('right')
+		player.x = player.x + move 
+	}
+	$ctx.clearRect(0, 0, canvas.width, canvas.height);
+	player.draw()
+})
