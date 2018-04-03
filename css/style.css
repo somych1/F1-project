@@ -21,30 +21,30 @@ canvas {
 
 @-webkit-keyframes scroll{
   100%{
-    background-position:0px -40000px;
+    background-position:0px -100000px;
   }
 }
 
 @-moz-keyframes scroll{
   100%{
-    background-position:0px -40000px;
+    background-position:0px -100000px;
   }
 }
 
 @-o-keyframes scroll{
   100%{
-    background-position:0px -40000px;
+    background-position:0px -100000px;
   }
 }
 
 @-ms-keyframes scroll{
   100%{
-    background-position:0px -40000px;
+    background-position:0px -100000px;
   }
 }
 
 @keyframes scroll{
   100%{
-    background-position:0px -40000px;
+    background-position:0px -100000px;
   }
 }
