@@ -4,14 +4,16 @@ const $ctx = canvas.getContext("2d");
 
 const img = [];
 const keys = [];
-let level;
-let score;
+let level = document.getElementById('level');
+let score = document.getElementById('score');
+level.innerText = 1;
+score.innerText = 1;
 let direction = 'down';
 const playerX = 328;
 const carImg = ['cars/blue.png', 'cars/green.png', 'cars/purple.png', 'cars/white.png', 'cars/yellow.png'];
-let speed = 5
+let speed = 3;
 let othersCarsSpeed = 1;
-const numOfCars = 10;
+let numOfCars = 5;
 
 
 //random number btwn 1-4
@@ -47,12 +49,54 @@ class Car {
 		this.picture.src = image;
 	}
 	draw (){
-		$ctx.imageSmoothingEnabled = true;
+		// $ctx.imageSmoothingEnabled = true;
 		$ctx.drawImage(this.picture, this.x, this.y, this.width, this.height);
 	}
 	update() {
     	this.y += othersCarsSpeed;
   	}
+  	createNewCar(){
+  		if(this.y === 250){
+  			game.createTraffic()
+  			score.innerText ++;
+		    if(game.arrOfCars.length % numOfCars === 0){
+		        level.innerText ++;
+		        numOfCars += 5;
+		        othersCarsSpeed += 1;
+		        speed +=0.5;
+		    }
+  		}
+  	}
+  	collisionDetection(){
+  		//front left
+	    if(game.player.x > this.x && 
+	    	game.player.x < this.x + this.width && 
+	    	game.player.y > this.y && 
+	    	game.player.y < this.y + this.height){
+	        console.log('accident')
+		}
+		//front right
+		if(game.player.x + game.player.width > this.x && 
+	    	game.player.x + game.player.width < this.x + this.width && 
+	    	game.player.y > this.y && 
+	    	game.player.y < this.y + this.height){
+	        console.log('accident')
+		} 
+		// rear right
+		if(game.player.x < this.x && 
+			game.player.x + game.player.width > this.x && 
+			game.player.y < this.y && 
+			game.player.y + game.player.height > this.y){
+	        console.log('accident')
+		} 
+		// rear left
+		if(game.player.x > this.x && 
+			game.player.x < this.x + this.width && 
+			game.player.y < this.y && 
+			game.player.y + game.player.height > this.y){
+	        console.log('accident')
+		}
+	}
 }
 
 game.startGame()
@@ -61,24 +105,14 @@ function clearCanvas(){
 	$ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-let time = 0;
-const setTimer = function(){
-    const timer = setInterval(() => {
-        time ++
-        if(time % 8 === 0) {;
-            game.createTraffic()
-        }
-     }, 1000);
-}
-
-setTimer()
-
 const animate = () => {
 
 	clearCanvas();
 	game.player.draw();
 	game.arrOfCars.forEach(function(otherCar) { //<-- move something like this to animate (you will update their location each animation frame)
 	        otherCar.update();
+	        otherCar.createNewCar();
+	        otherCar.collisionDetection();
 	    });
 	game.arrOfCars.forEach(function(otherCar) { //<-- move something like this to animate (you will draw each car each animation frame)
 	        otherCar.draw();

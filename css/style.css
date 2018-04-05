@@ -1,10 +1,26 @@
 body {
-	background-color: yellow;
+	background-color: rgb(86, 189, 110);
 }
 canvas {
 	width: 600;
 	height: 1000;
 }
+header {
+	display: flex;
+	justify-content: space-around;
+	height: 100px;
+	width: 600px;
+	background-color: rgb(58, 58, 63);
+	position: relative;
+	margin: 0 auto;
+	border: 5px solid white;
+	align-items: center;
+}
+
+h2 {
+	color: white;
+}
+
 .background{
 	border: 5px solid white;
 	background: url('../img/bg.jpg');
@@ -21,30 +37,30 @@ canvas {
 
 @-webkit-keyframes scroll{
   100%{
-    background-position:0px -100000px;
+    background-position:0px -300000px;
   }
 }
 
 @-moz-keyframes scroll{
   100%{
-    background-position:0px -100000px;
+    background-position:0px -300000px;
   }
 }
 
 @-o-keyframes scroll{
   100%{
-    background-position:0px -100000px;
+    background-position:0px -300000px;
   }
 }
 
 @-ms-keyframes scroll{
   100%{
-    background-position:0px -100000px;
+    background-position:0px -300000px;
   }
 }
 
 @keyframes scroll{
   100%{
-    background-position:0px -100000px;
+    background-position:0px -300000px;
   }
 }
