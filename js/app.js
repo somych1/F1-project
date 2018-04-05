@@ -6,15 +6,21 @@ const img = [];
 const keys = [];
 let level = document.getElementById('level');
 let score = document.getElementById('score');
+let damage = document.getElementById('damage');
 level.innerText = 1;
 score.innerText = 1;
+let scratch = 0;
+damage.innerText = 0 + '%';
+
 let direction = 'down';
 const playerX = 328;
 const carImg = ['cars/blue.png', 'cars/green.png', 'cars/purple.png', 'cars/white.png', 'cars/yellow.png'];
 let speed = 3;
 let othersCarsSpeed = 1;
 let numOfCars = 5;
-
+const removeInstance = function () {
+     this.destroy = function () {};
+};
 
 //random number btwn 1-4
 const randNum = function(num){
@@ -26,9 +32,13 @@ const game = {
 	arrOfCars: [],
 	
 	startGame: function(){
-		this.player = new Car(playerX, 790, 110, 200, "cars/blue.png");
+		clearCanvas()
+		this.player = new Car(328, 790, 110, 200, "cars/blue.png");
 		this.player.draw();
 		this.createTraffic()
+		speed = 10;
+		othersCarsSpeed = 10;
+		numOfCars = 10;
 	},
 
 	// create all cars for the round
@@ -36,6 +46,12 @@ const game = {
 	   	// create car	   
     	const otherCar = new Car(randNum(4) * 150 + 10, -200, 110, 200, carImg[randNum(5)]);
     	this.arrOfCars.push(otherCar);
+	},
+	checkDeath(){
+		if(damage.innerText === 0){
+			console.log('dead')
+			window.cancelAnimationFrame();
+		}
 	}
 }
 
@@ -56,12 +72,12 @@ class Car {
     	this.y += othersCarsSpeed;
   	}
   	createNewCar(){
-  		if(this.y === 250){
+  		if(this.y === 300){
   			game.createTraffic()
   			score.innerText ++;
 		    if(game.arrOfCars.length % numOfCars === 0){
 		        level.innerText ++;
-		        numOfCars += 5;
+		        numOfCars += 10;
 		        othersCarsSpeed += 1;
 		        speed +=0.5;
 		    }
@@ -73,28 +89,46 @@ class Car {
 	    	game.player.x < this.x + this.width && 
 	    	game.player.y > this.y && 
 	    	game.player.y < this.y + this.height){
-	        console.log('accident')
+	    	scratch += 1;
+	    	damage.innerText = Math.round(scratch * 100 / 2000) + '%';
+	    	// game.startGame()
+	    	game.player.x += 3;
+	    	game.player.y += 3;
+
 		}
 		//front right
 		if(game.player.x + game.player.width > this.x && 
 	    	game.player.x + game.player.width < this.x + this.width && 
 	    	game.player.y > this.y && 
 	    	game.player.y < this.y + this.height){
-	        console.log('accident')
+	    	scratch += 1;
+	    	damage.innerText = Math.round(scratch * 100 / 1000) + '%';
+	    	game.player.x -= 3;
+	    	game.player.y += 3;
+
 		} 
 		// rear right
 		if(game.player.x < this.x && 
 			game.player.x + game.player.width > this.x && 
 			game.player.y < this.y && 
 			game.player.y + game.player.height > this.y){
-	        console.log('accident')
+	    	scratch += 1;
+	    	damage.innerText = Math.round(scratch * 100 / 2000) + '%';
+	    	game.player.x -= 3;
+	    	game.player.y -= 3;
+
 		} 
 		// rear left
 		if(game.player.x > this.x && 
 			game.player.x < this.x + this.width && 
 			game.player.y < this.y && 
 			game.player.y + game.player.height > this.y){
-	        console.log('accident')
+	    	scratch += 1;
+	    	damage.innerText = Math.round(scratch * 100 / 2000) + '%';
+	    	game.player.x += 3;
+	    	game.player.y -= 3;
+
+
 		}
 	}
 }
@@ -110,17 +144,14 @@ const animate = () => {
 	clearCanvas();
 	game.player.draw();
 	game.arrOfCars.forEach(function(otherCar) { //<-- move something like this to animate (you will update their location each animation frame)
-	        otherCar.update();
-	        otherCar.createNewCar();
-	        otherCar.collisionDetection();
-	    });
+        otherCar.update();
+        otherCar.createNewCar();
+        otherCar.collisionDetection();
+    });
 	game.arrOfCars.forEach(function(otherCar) { //<-- move something like this to animate (you will draw each car each animation frame)
-	        otherCar.draw();
-	    });
-
-
-	// game.otherCar.draw()
-	// loop over game.arrOfCars and update and draw each one
+        otherCar.draw();
+	});
+	game.checkDeath()
 
 	requestAnimationFrame(animate); // this will happen 60 times / sec
 }
