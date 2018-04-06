@@ -16,7 +16,13 @@ header {
 	border: 5px solid white;
 	align-items: center;
 }
-
+h1, h3 {
+	display: flex;
+	justify-content: space-around;
+	position: relative;
+	color: black;
+	margin: 0 auto;
+}
 h2 {
 	color: white;
 }

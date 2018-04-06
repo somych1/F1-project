@@ -16,7 +16,7 @@ let direction = 'down';
 const playerX = 328;
 const carImg = ['cars/blue.png', 'cars/green.png', 'cars/purple.png', 'cars/white.png', 'cars/yellow.png'];
 let speed = 3;
-let othersCarsSpeed = 1;
+let othersCarsSpeed = 10;
 let numOfCars = 5;
 const removeInstance = function () {
      this.destroy = function () {};
@@ -37,7 +37,7 @@ const game = {
 		this.player.draw();
 		this.createTraffic()
 		speed = 10;
-		othersCarsSpeed = 10;
+		// othersCarsSpeed = 10;
 		numOfCars = 10;
 	},
 
@@ -48,7 +48,7 @@ const game = {
     	this.arrOfCars.push(otherCar);
 	},
 	checkDeath(){
-		if(damage.innerText === 0){
+		if(scratch === 300){
 			console.log('dead')
 			window.cancelAnimationFrame();
 		}
@@ -72,15 +72,16 @@ class Car {
     	this.y += othersCarsSpeed;
   	}
   	createNewCar(){
+  		if(game.arrOfCars.length % numOfCars ===0){
+	    	// othersCarsSpeed += 2;
+	        level.innerText ++;
+	        numOfCars += 10;
+	        speed ++;
+	    }
   		if(this.y === 300){
   			game.createTraffic()
   			score.innerText ++;
-		    if(game.arrOfCars.length % numOfCars === 0){
-		        level.innerText ++;
-		        numOfCars += 10;
-		        othersCarsSpeed += 1;
-		        speed +=0.5;
-		    }
+		    
   		}
   	}
   	collisionDetection(){
@@ -90,7 +91,7 @@ class Car {
 	    	game.player.y > this.y && 
 	    	game.player.y < this.y + this.height){
 	    	scratch += 1;
-	    	damage.innerText = Math.round(scratch * 100 / 2000) + '%';
+	    	damage.innerText = Math.round(scratch * 100 / 300) + '%';
 	    	// game.startGame()
 	    	game.player.x += 3;
 	    	game.player.y += 3;
@@ -102,7 +103,7 @@ class Car {
 	    	game.player.y > this.y && 
 	    	game.player.y < this.y + this.height){
 	    	scratch += 1;
-	    	damage.innerText = Math.round(scratch * 100 / 1000) + '%';
+	    	damage.innerText = Math.round(scratch * 100 / 300) + '%';
 	    	game.player.x -= 3;
 	    	game.player.y += 3;
 
@@ -113,7 +114,7 @@ class Car {
 			game.player.y < this.y && 
 			game.player.y + game.player.height > this.y){
 	    	scratch += 1;
-	    	damage.innerText = Math.round(scratch * 100 / 2000) + '%';
+	    	damage.innerText = Math.round(scratch * 100 / 300) + '%';
 	    	game.player.x -= 3;
 	    	game.player.y -= 3;
 
@@ -124,7 +125,7 @@ class Car {
 			game.player.y < this.y && 
 			game.player.y + game.player.height > this.y){
 	    	scratch += 1;
-	    	damage.innerText = Math.round(scratch * 100 / 2000) + '%';
+	    	damage.innerText = Math.round(scratch * 100 / 300) + '%';
 	    	game.player.x += 3;
 	    	game.player.y -= 3;
 
@@ -133,7 +134,7 @@ class Car {
 	}
 }
 
-game.startGame()
+// game.startGame()
 
 function clearCanvas(){
 	$ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -155,8 +156,12 @@ const animate = () => {
 
 	requestAnimationFrame(animate); // this will happen 60 times / sec
 }
-animate();
-
+// animate();
+canvas.addEventListener('click', (e) => {
+	e.currentTarget
+	game.startGame()
+	animate()
+})
 function playerControl() {
 
     if (keys[38]) {
