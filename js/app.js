@@ -1,6 +1,6 @@
 const canvas = document.getElementById('canvas');
 const $ctx = canvas.getContext("2d");
-
+let animationFrames;
 
 const img = [];
 const keys = [];
@@ -49,8 +49,8 @@ const game = {
 	},
 	checkDeath(){
 		if(scratch === 300){
-			console.log('dead')
-			window.cancelAnimationFrame();
+			window.alert('Pull over! Game Over!');
+			window.cancelAnimationFrame(animationFrames);
 		}
 	}
 }
@@ -95,7 +95,6 @@ class Car {
 	    	// game.startGame()
 	    	game.player.x += 3;
 	    	game.player.y += 3;
-
 		}
 		//front right
 		if(game.player.x + game.player.width > this.x && 
@@ -154,7 +153,7 @@ const animate = () => {
 	});
 	game.checkDeath()
 
-	requestAnimationFrame(animate); // this will happen 60 times / sec
+	animationFrames = window.requestAnimationFrame(animate); // this will happen 60 times / sec
 }
 // animate();
 canvas.addEventListener('click', (e) => {
