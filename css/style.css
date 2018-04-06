@@ -1,5 +1,7 @@
 body {
-	background-color: rgb(86, 189, 110);
+	background: url('../img/chicago.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 canvas {
 	width: 600;
